@@ -1,0 +1,42 @@
+version: '3'
+services:
+
+  webserver:
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    container_name: webserver
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - flask_app
+      - populate_db
+      - mongodb
+
+  flask_app:
+    build:
+      context: flask
+      dockerfile: Dockerfile
+    container_name: flask_app
+    restart: unless-stopped
+    depends_on:
+      - populate_db
+      - mongodb
+    ports:
+      - "5002:5002"
+
+  populate_db:
+    build:
+      context: py_app
+      dockerfile: Dockerfile
+    container_name: populate_db
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
