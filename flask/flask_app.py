@@ -11,6 +11,7 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(mes
 
 application = flask.Flask(__name__)
 
+mongodb_uri = "mongodb://mongodb:27017/"
 
 def valid_date(m: int, d: int) -> bool:
     """
@@ -35,14 +36,15 @@ def valid_date(m: int, d: int) -> bool:
         return False
 
 
-def dates_single_query(request: dict):
+def dates_single_query(request: dict, mongodb_uri: str):
     """
     Queries the DB for single day and a fact.
 
     :param request: Dictionary containing month and date for queried fact.
+    :param mongodb_uri: String containing the MongoDB URI.
     :return: A flask jsonified response ready to be sent over HTTP.
     """
-    client = pymongo.MongoClient("mongodb://mongodb:27017/")
+    client = pymongo.MongoClient(mongodb_uri)
     db = client["facts_db"]
     col = db["facts"]
     db_response_list = list()
@@ -69,13 +71,14 @@ def dates_single_query(request: dict):
     return response
 
 
-def dates_all_query():
+def dates_all_query(mongodb_uri: str):
     """
     Queries the DB for single day and a fact.Queries the DB for single day and a fact.
 
+    :param mongodb_uri: String containing the MongoDB URI.
     :return: A flask jsonified response ready to be sent over HTTP.
     """
-    client = pymongo.MongoClient("mongodb://mongodb:27017/")
+    client = pymongo.MongoClient(mongodb_uri)
     db = client["facts_db"]
     col = db["facts"]
     db_response_list = list()
@@ -104,10 +107,10 @@ def dates():
         # Check for the valid dates. Taking into account a year with 366 days.
         if not valid_date(req["month"], req["day"]):
             return "Bad Request", status.HTTP_400_BAD_REQUEST
-        response = dates_single_query(req)
+        response = dates_single_query(req, mongodb_uri)
     # Checks for the GET request.
     else:
-        response = dates_all_query()
+        response = dates_all_query(mongodb_uri)
     return response
 
 
@@ -133,7 +136,7 @@ def delete_dates(id: str):
     elif headers_dict["X-Api-Key"] != "SECRET_API_KEY":
         logging.debug("Request does not contain the required X-Api-Key value.")
         return "Unauthorized ", status.HTTP_401_UNAUTHORIZED
-    client = pymongo.MongoClient("mongodb://mongodb:27017/")
+    client = pymongo.MongoClient(mongodb_uri)
     db = client["facts_db"]
     col = db["facts"]
     db_response_list = list()
@@ -166,7 +169,7 @@ def popular():
     """
     logging.debug("Received a {} request.".format(request.method))
     # Connect to MongoDB
-    client = pymongo.MongoClient("mongodb://mongodb:27017/")
+    client = pymongo.MongoClient(mongodb_uri)
     db = client["facts_db"]
     col = db["facts"]
     response_list = list()
