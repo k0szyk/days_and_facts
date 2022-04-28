@@ -75,8 +75,8 @@ There are 4 endpoints available for REST API:
 ]
 ```
 4. **GET /popular** - retrieves the months and the value representing number of times facts for the days in a respective month were checked.
-```json
 - Sample GET /popular response body:
+```json
 [
   {
     "days_checked": 1,
