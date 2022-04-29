@@ -95,3 +95,10 @@ There are 4 endpoints available for REST API:
   }
 ]
 ```
+
+### Tests
+
+The tests are availale at ```flask/tests.py```. This covers very simple unit tests for each of the REST API endpoints. The ```flask/requirements.txt``` file does not provide all the packages/modules required to run the ```flask/tests.py```. Make sure to run the following commands before starting the ```flask/test.py```:
+- ```pip install faker```
+- ```pip install requests```
+- ```pip install random```
