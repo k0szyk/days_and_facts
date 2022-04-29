@@ -71,6 +71,7 @@ def dates_single_query(request: dict, mongodb_uri: str):
                         "month": db_response_list[0]["month"],
                         "day": db_response_list[0]["day"],
                         "fact": db_response_list[0]["fact"]})
+    response.headers.set('Content-Type', 'application/json; charset=UTF-8')
     return response
 
 
@@ -93,6 +94,7 @@ def dates_all_query(mongodb_uri: str):
                                  "fact": document["fact"]})
     # Prepares the response.
     response = jsonify(db_response_list)
+    response.headers.set('Content-Type', 'application/json; charset=UTF-8')
     return response
 
 
@@ -160,6 +162,7 @@ def delete_dates(id: str):
                         "month": db_response_list[0]["month"],
                         "day": db_response_list[0]["day"],
                         "fact": db_response_list[0]["fact"]})
+    response.headers.set('Content-Type', 'application/json; charset=UTF-8')
     return response
 
 
@@ -187,9 +190,12 @@ def popular():
         response_list.append({"id": month,
                               "month": calendar.month_name[month],
                               "days_checked": sum_hits})
-    return jsonify(response_list)
+    resposne = jsonify(response_list)
+    response.headers.set('Content-Type', 'application/json; charset=UTF-8')
+    return response
 
 
 if __name__ == "__main__":
     application.run(host='0.0.0.0', port=5002)
 #app.run(host='0.0.0.0', port=5002)
+
