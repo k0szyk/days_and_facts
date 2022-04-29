@@ -20,6 +20,8 @@ services:
       dockerfile: Dockerfile
     container_name: flask_app
     restart: unless-stopped
+    environment:
+      MONGODB_HOSTNAME: mongodb
     depends_on:
       - populate_db
       - mongodb

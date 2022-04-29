@@ -1,17 +1,20 @@
-import json
 import flask
+import os
 import logging
-import time
 import pymongo
 import calendar
-from flask import request, jsonify, Response
+from flask import request, jsonify
 from flask_api import status
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s', filename='./flask_app.log', filemode='a')
 
 application = flask.Flask(__name__)
 
-mongodb_uri = "mongodb://mongodb:27017/"
+#To allow for unittest against live mongoDB
+if not os.environ.get('MONGODB_HOSTNAME', None):
+    mongodb_uri = 'mongodb://localhost:27017/'
+else:
+    mongodb_uri = 'mongodb://{}:27017/'.format(os.environ['MONGODB_HOSTNAME'])
 
 def valid_date(m: int, d: int) -> bool:
     """

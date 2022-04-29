@@ -10,7 +10,7 @@ The project is build from 5 main parts:
 1. **MongoDB** - a noSQL database that stores the data. MongoDB was selected for its lightweight requirements. The data model does not require any complex operations, therefore a selection of MongoDB.
 2. **Flask** - a Python library that is a web framework that will handle the logic behind the REST API.
 3. **Gunicorn** (WSGI) - acting as the Web Server Gateway to allow the scalability for the REST API.
-4. **Nginx** - a web server that provides the security and scalability and acts as the proxy server.
+4. **Nginx** - a web server that provides the security and scalability and acts as the reverse proxy server.
 5. **populate_db.py** - a Python script used to pre-populate the MongoDB with data from http://numbersapi.com.
 
 ![alt text](https://github.com/k0szyk/days_and_facts/blob/main/diagram.png?raw=true)
@@ -31,7 +31,7 @@ The ```docker-compose.yml``` will build 4 containers:
 1. **mongodb** - a container with MongoDB.
 2. **populate_db** - a container used to populate the MongoDB with data from http://numbersapi.com.
 3. **flask_app** - a container with Flask application and Gunicorn serving the REST API.
-4. **webserver** - a container with Nginx web server acting as the frontend server and HTTP proxy.
+4. **webserver** - a container with Nginx web server acting as the frontend HTTP server and reverse proxy.
 
 ### Usage
 
