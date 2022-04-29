@@ -190,7 +190,7 @@ def popular():
         response_list.append({"id": month,
                               "month": calendar.month_name[month],
                               "days_checked": sum_hits})
-    resposne = jsonify(response_list)
+    response = jsonify(response_list)
     response.headers.set('Content-Type', 'application/json; charset=UTF-8')
     return response
 
